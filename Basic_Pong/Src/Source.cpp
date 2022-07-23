@@ -13,7 +13,7 @@ int main()
 	float Paddelspeed = 120; // Adjust this value to change the speed of the paddles
 	const short width = 800, height = 600;
 	sf::RenderWindow window(sf::VideoMode(width, height), "Pong");
-	window.setFramerateLimit(40);
+	
 
 	sf::RectangleShape middleLine;
 	middleLine.setPosition(width / 2, 0);
