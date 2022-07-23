@@ -6,15 +6,16 @@
 class Sphere {
 public:
 	sf::Vector2f size;
-	short window_height;
+	short window_height,window_width;
 	sf::RectangleShape ball;
 	
 
-	Sphere(float radius,short window_hieght)
+	Sphere(float radius,short window_hieght,short window_width)
 	{
 		size.x = radius;
 		size.y = radius;
 		this->window_height = window_height;
+		this->window_width = window_width;
 
 		ball.setSize(size);
 		ball.setFillColor(sf::Color::White);
@@ -77,3 +78,15 @@ void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& righ
 }
 
 
+void collidedWithWall(Sphere& gameball) //This function is a early version of the life system, which will be added in future commits
+{
+	if (gameball.ball.getPosition().x + gameball.ball.getSize().x > gameball.window_width)
+	{
+		gameball.ball.setPosition(rand() + 100 % 250, rand() + 100 % 300);
+	}
+	else if (gameball.ball.getPosition().x < 0)
+	{
+		gameball.ball.setPosition(rand() + 100 % 250, rand() + 150 % 300);
+		
+	}
+}

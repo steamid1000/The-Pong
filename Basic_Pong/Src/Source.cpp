@@ -6,7 +6,6 @@
 #include "ball.h"
 
 
-
 int main()
 {
 	srand(time(0));
@@ -14,7 +13,7 @@ int main()
 	float Paddelspeed = 120; // Adjust this value to change the speed of the paddles
 	const short width = 800, height = 600;
 	sf::RenderWindow window(sf::VideoMode(width, height), "Pong");
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(40);
 
 	sf::RectangleShape middleLine;
 	middleLine.setPosition(width / 2, 0);
@@ -27,7 +26,7 @@ int main()
 
 	paddels left(sf::Vector2f(20,60), 0);
 	paddels right(sf::Vector2f(20, 60), 1);
-	Sphere gameBall(18.f,height);
+	Sphere gameBall(18.f,height,width);
 
 	sf::CircleShape gameball;
 	gameball.setRadius(10.f);
@@ -65,7 +64,8 @@ int main()
 		}
 
 
-		checkCollision(seconds, gameBall, left, right,Angle);
+		checkCollision(seconds, gameBall, left, right,Angle); //More precision required in collision
+		collidedWithWall(gameBall);
 
 		window.clear();
 		window.draw(middleLine);
