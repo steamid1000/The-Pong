@@ -2,7 +2,7 @@
 #include <SFML/graphics.hpp>
 
 class paddels {
-	int speed = 100;
+	int speed = 180;
 	// 0 is the left side and 1 is the right side
 
 public:
@@ -19,28 +19,28 @@ public:
 		}
 		else
 		{
-			paddel.setPosition(800-sizes.x,600 - sizes.y);
+			paddel.setPosition(600-sizes.x,400 - sizes.y);
 		
 		}
 	}
 
-	 inline void displace(paddels &pad,float &Paddelspeed,sf::Time &dt,bool side,const short &vertical_height,bool part) // the inline might or might not helo at all
+	 inline void displace(paddels &pad,sf::Time &dt,bool side,const short &vertical_height,bool part) // the inline might or might not helo at all
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) and side==0 and within_bounds(pad,vertical_height,part))
 		{
-			pad.paddel.move(0, Paddelspeed * dt.asSeconds());
+			pad.paddel.move(0, speed * dt.asSeconds());
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and side==0 and within_bounds(pad,vertical_height,part))
 		{
-			pad.paddel.move(0, -(Paddelspeed * dt.asSeconds()));
+			pad.paddel.move(0, -(speed * dt.asSeconds()));
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) and side==1 and within_bounds(pad,vertical_height,part))
 		{
-			pad.paddel.move(0, -(Paddelspeed * dt.asSeconds()));
+			pad.paddel.move(0, -(speed * dt.asSeconds()));
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) and side==1 and within_bounds(pad,vertical_height,part))
 		{
-			pad.paddel.move(0, (Paddelspeed * dt.asSeconds()));
+			pad.paddel.move(0, (speed * dt.asSeconds()));
 		}
 	}
 

@@ -1,42 +1,56 @@
 #pragma once
 
 #include <SFML/graphics.hpp>
-		
+
+float pi = 3.1415;
+short window_height,window_width;
 
 class Sphere {
 public:
-	sf::Vector2f size;
-	short window_height,window_width;
-	sf::RectangleShape ball;
-	
+	float size;
+	sf::CircleShape ball;
 
-	Sphere(float radius,short window_hieght,short window_width)
+
+	Sphere(float radius,short window_hieghts,short window_widths)
 	{
-		size.x = radius;
-		size.y = radius;
-		this->window_height = window_height;
-		this->window_width = window_width;
+		size = radius;
+		window_height = window_hieghts;
+		window_width = window_widths;
 
-		ball.setSize(size);
+		ball.setRadius(radius);
 		ball.setFillColor(sf::Color::White);
 		//ball.setOrigin(800/2,window_height/4);
-		ball.setPosition(800/2, -window_height);
+		ball.setPosition(window_width/2, -window_height);
 	}
 
 	
 
 };
 
-bool onCollision(paddels& pad, Sphere& gameball, float& dt)
+void logCollision(paddels pad,Sphere gameball) //Just logs the collision information on the console
 {
-	if (pad.paddel.getGlobalBounds().intersects(gameball.ball.getGlobalBounds()))
+	std::cout << "ball has collided\n";
+	std::cout << "Ball position: " << gameball.ball.getPosition().x << "\n";
+
+	std::cout << "Position of collided paddel: " << pad.paddel.getPosition().y << "\n";
+}
+
+bool onCollision(paddels& pad, Sphere& gameball)
+{
+	if (gameball.ball.getPosition().x - gameball.ball.getRadius() < pad.paddel.getPosition().x + pad.paddel.getSize().x / 2 and
+		gameball.ball.getPosition().x - gameball.ball.getRadius() > pad.paddel.getPosition().x and
+		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y / 2 and
+		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y / 2)
 	{
-
-		std::cout << "ball has collided\n";
-		std::cout << "Ball position: " << gameball.ball.getPosition().x << "\n";
-
-		std::cout << "Position of collided paddel: " << pad.paddel.getPosition().y << "\n";
-
+		logCollision(pad, gameball);
+		return true;
+	}
+	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > pad.paddel.getPosition().x - pad.paddel.getSize().x / 2 and
+		gameball.ball.getPosition().x + gameball.ball.getRadius() < pad.paddel.getPosition().x and
+		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y / 2 and
+		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y / 2)
+	{
+		logCollision(pad, gameball);
 		return true;
 	}
 
@@ -48,29 +62,28 @@ bool onCollision(paddels& pad, Sphere& gameball, float& dt)
 
 void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& rightpad,float &Angle)
 {
-	float factor = 150.f * dt;
+	float factor = 180.f * dt;
 
 
-	if (!onCollision(leftpad, gameball, dt) and !onCollision(rightpad, gameball, dt) and gameball.ball.getPosition().y + gameball.ball.getSize().y > 600) //Bottom Collision
+	if (!onCollision(leftpad, gameball) and !onCollision(rightpad, gameball) and gameball.ball.getPosition().y + gameball.ball.getRadius() > window_height) //Bottom Collision
 	{
-		gameball.ball.setPosition(gameball.ball.getPosition().x, 600 - gameball.ball.getSize().y - 0.1f);
+		gameball.ball.setPosition(gameball.ball.getPosition().x, window_height - gameball.ball.getRadius() - 0.1f);
 		Angle = -Angle;
 	}
-	else if (!onCollision(leftpad, gameball, dt) and !onCollision(rightpad, gameball, dt) and gameball.ball.getPosition().y < 0) //Top Collision
+	else if (!onCollision(leftpad, gameball) and !onCollision(rightpad, gameball) and gameball.ball.getPosition().y < 0) //Top Collision
 	{
 		gameball.ball.setPosition(gameball.ball.getPosition().x, 0.1f);
 		Angle = -Angle;
 	}
-	else if (onCollision(leftpad, gameball, dt) or onCollision(rightpad, gameball, dt))
+	else if (onCollision(leftpad, gameball) or onCollision(rightpad, gameball))
 	{
 		std::cout << "Value of angle: " << Angle << "\n";
 
-		if (onCollision(leftpad, gameball, dt)) 
-		{ Angle = 3.1415 - Angle + std::rand() % 45; gameball.ball.setPosition(gameball.ball.getPosition().x + 0.2f, gameball.ball.getPosition().y); }
+		if (onCollision(leftpad, gameball)) 
+		{ Angle = pi - Angle + std::rand() % 15; gameball.ball.setPosition(gameball.ball.getPosition().x + 0.2f, gameball.ball.getPosition().y); }
 
-		Angle = 3.1415 - Angle - std::rand() % 45;
+		Angle = pi - Angle - std::rand() % 15;
 		gameball.ball.setPosition(gameball.ball.getPosition().x - 0.2f, gameball.ball.getPosition().y);
-
 
 	}
 
@@ -80,13 +93,13 @@ void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& righ
 
 void collidedWithWall(Sphere& gameball) //This function is a early version of the life system, which will be added in future commits
 {
-	if (gameball.ball.getPosition().x + gameball.ball.getSize().x > gameball.window_width)
+	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > window_width)
 	{
-		gameball.ball.setPosition(rand() + 100 % 250, rand() + 100 % 300);
+		gameball.ball.setPosition(window_width/2,window_height/2);
 	}
 	else if (gameball.ball.getPosition().x < 0)
 	{
-		gameball.ball.setPosition(rand() + 100 % 250, rand() + 150 % 300);
+		gameball.ball.setPosition(window_width/2,window_height/2);
 		
 	}
 }

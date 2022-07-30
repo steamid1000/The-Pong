@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <SFML/Graphics.hpp>
 #include <random>
 #include "Paddels.h"
@@ -10,8 +9,7 @@ int main()
 {
 	srand(time(0));
 
-	float Paddelspeed = 120; // Adjust this value to change the speed of the paddles
-	const short width = 800, height = 600;
+	const short width = 600, height = 400;
 	sf::RenderWindow window(sf::VideoMode(width, height), "Pong");
 	
 
@@ -26,17 +24,17 @@ int main()
 
 	paddels left(sf::Vector2f(20,60), 0);
 	paddels right(sf::Vector2f(20, 60), 1);
-	Sphere gameBall(18.f,height,width);
+	Sphere gameBall(11.f,height,width);
 
 	sf::CircleShape gameball;
 	gameball.setRadius(10.f);
 	gameball.setFillColor(sf::Color::White);
 	gameball.setOrigin(gameball.getRadius() / 2, gameball.getRadius() / 2);
 	float Angle;
-	Angle = 300 / 2.37f;
+	Angle = std::rand() + 100 % 145;
 	float seconds;
 
-	paddels pads[2] = { left,right };
+	
 
 	while (window.isOpen())
 	{
@@ -54,18 +52,21 @@ int main()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) or sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			left.displace(left, Paddelspeed, dt,false,height,0);
+			left.displace(left,dt,false,height,0);
 			//False means the paddle is on the left and vice versa
 		}
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) or sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			right.displace(right, Paddelspeed, dt,true,height,1);
+			right.displace(right,dt,true,height,1);
 		}
 
-
+		
+	
 		checkCollision(seconds, gameBall, left, right,Angle); //More precision required in collision
 		collidedWithWall(gameBall);
+
+		
 
 		window.clear();
 		window.draw(middleLine);
