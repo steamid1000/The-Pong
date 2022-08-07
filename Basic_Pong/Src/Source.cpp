@@ -3,7 +3,7 @@
 #include <random>
 #include "Paddels.h"
 #include "ball.h"
-
+#include "Lives.h"
 
 int main()
 {
@@ -11,7 +11,7 @@ int main()
 
 	const short width = 600, height = 400;
 	sf::RenderWindow window(sf::VideoMode(width, height), "Pong");
-	
+	//window.setFramerateLimit(60);
 
 	sf::RectangleShape middleLine;
 	middleLine.setPosition(width / 2, 0);
@@ -34,7 +34,9 @@ int main()
 	Angle = std::rand() + 100 % 145;
 	float seconds;
 
-	
+	//lives code here
+	hearts leftHearts(0);
+	hearts rightHearts(1);
 
 	while (window.isOpen())
 	{
@@ -64,7 +66,7 @@ int main()
 		
 	
 		checkCollision(seconds, gameBall, left, right,Angle); //More precision required in collision
-		collidedWithWall(gameBall);
+		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,rightHearts.numberOfLivesLeft);
 
 		
 
@@ -73,6 +75,8 @@ int main()
 		window.draw(left.paddel);
 		window.draw(right.paddel);
 		window.draw(gameBall.ball);
+		leftHearts.drawHearts(window);
+		rightHearts.drawHearts(window);
 		window.display();
 		
 

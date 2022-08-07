@@ -20,7 +20,7 @@ public:
 		ball.setRadius(radius);
 		ball.setFillColor(sf::Color::White);
 		//ball.setOrigin(800/2,window_height/4);
-		ball.setPosition(window_width/2, -window_height);
+		ball.setPosition(window_width/2, window_height/2);
 	}
 
 	
@@ -30,25 +30,24 @@ public:
 void logCollision(paddels pad,Sphere gameball) //Just logs the collision information on the console
 {
 	std::cout << "ball has collided\n";
-	std::cout << "Ball position: " << gameball.ball.getPosition().x << "\n";
-
-	std::cout << "Position of collided paddel: " << pad.paddel.getPosition().y << "\n";
+	std::cout << "X-Position of Ball: " << gameball.ball.getPosition().x << "\n";
+	std::cout << "Y-Position of collided paddel: " << pad.paddel.getPosition().y << "\n";
 }
 
-bool onCollision(paddels& pad, Sphere& gameball)
+bool onCollision(paddels& pad, Sphere& gameball) //return true and calls the log function
 {
-	if (gameball.ball.getPosition().x - gameball.ball.getRadius() < pad.paddel.getPosition().x + pad.paddel.getSize().x / 2 and
+	if (gameball.ball.getPosition().x - gameball.ball.getRadius() < pad.paddel.getPosition().x + pad.paddel.getSize().x and
 		gameball.ball.getPosition().x - gameball.ball.getRadius() > pad.paddel.getPosition().x and
-		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y / 2 and
-		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y / 2)
+		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y and
+		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y)
 	{
 		logCollision(pad, gameball);
 		return true;
 	}
-	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > pad.paddel.getPosition().x - pad.paddel.getSize().x / 2 and
+	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > pad.paddel.getPosition().x - pad.paddel.getSize().x and
 		gameball.ball.getPosition().x + gameball.ball.getRadius() < pad.paddel.getPosition().x and
-		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y / 2 and
-		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y / 2)
+		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y and
+		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y)
 	{
 		logCollision(pad, gameball);
 		return true;
@@ -73,17 +72,19 @@ void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& righ
 	else if (!onCollision(leftpad, gameball) and !onCollision(rightpad, gameball) and gameball.ball.getPosition().y < 0) //Top Collision
 	{
 		gameball.ball.setPosition(gameball.ball.getPosition().x, 0.1f);
-		Angle = -Angle;
+		Angle =-Angle;
 	}
 	else if (onCollision(leftpad, gameball) or onCollision(rightpad, gameball))
 	{
 		std::cout << "Value of angle: " << Angle << "\n";
 
-		if (onCollision(leftpad, gameball)) 
-		{ Angle = pi - Angle + std::rand() % 15; gameball.ball.setPosition(gameball.ball.getPosition().x + 0.2f, gameball.ball.getPosition().y); }
-
-		Angle = pi - Angle - std::rand() % 15;
-		gameball.ball.setPosition(gameball.ball.getPosition().x - 0.2f, gameball.ball.getPosition().y);
+		if (onCollision(leftpad, gameball)) //This has to be changed in the future
+		{ Angle = pi-Angle; gameball.ball.setPosition(gameball.ball.getPosition().x + gameball.ball.getRadius()/3+ 0.1f, gameball.ball.getPosition().y); }
+		else
+		{
+			Angle = pi-Angle;
+			gameball.ball.setPosition(gameball.ball.getPosition().x - gameball.ball.getRadius()/3-0.1, gameball.ball.getPosition().y);
+		}
 
 	}
 
@@ -91,15 +92,17 @@ void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& righ
 }
 
 
-void collidedWithWall(Sphere& gameball) //This function is a early version of the life system, which will be added in future commits
+void collidedWithWall(Sphere& gameball,short &numberOfHeartsOnLeft,short &numberOfHeartsOnRight) //This function is a early version of the life system, which will be added in future commits
 {
 	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > window_width)
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
+		--numberOfHeartsOnRight; //this will reduce the rendered hearts by 1 same is below
 	}
 	else if (gameball.ball.getPosition().x < 0)
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
+		--numberOfHeartsOnLeft;
 		
 	}
 }

@@ -13,5 +13,6 @@
   <ItemGroup>
     <ClInclude Include="Src\Paddels.h" />
     <ClInclude Include="Src\ball.h" />
+    <ClInclude Include="Src\Lives.h" />
   </ItemGroup>
 </Project>

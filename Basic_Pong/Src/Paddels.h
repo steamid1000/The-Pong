@@ -10,7 +10,7 @@ public:
 	paddels(sf::Vector2f sizes, bool side)
 	{
 		paddel.setSize(sizes);
-		paddel.setFillColor(sf::Color(std::rand() % 255, std::rand() % 255, std::rand()%255));
+		paddel.setFillColor(sf::Color(std::rand() + 180 % 255, std::rand() + 180 % 255, std::rand()%255));
 
 		if (side == 0)
 		{
