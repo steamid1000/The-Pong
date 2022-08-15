@@ -1,9 +1,22 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <iostream>
 #include <random>
 #include "Paddels.h"
 #include "ball.h"
 #include "Lives.h"
+
+
+void setSound(sf::SoundBuffer& buffer, sf::Sound& src,const std::string filePath)
+{
+	std::cout << "came here\n";
+	if (!buffer.loadFromFile(filePath))
+	{
+		std::cout << "file cannot be loaded\n";
+
+	}
+	src.setBuffer(buffer);
+}
 
 int main()
 {
@@ -31,12 +44,26 @@ int main()
 	gameball.setFillColor(sf::Color::White);
 	gameball.setOrigin(gameball.getRadius() / 2, gameball.getRadius() / 2);
 	float Angle;
-	Angle = std::rand() + 100 % 145;
+	Angle = std::rand() % 45;
 	float seconds;
 
 	//lives code here
 	hearts leftHearts(0);
 	hearts rightHearts(1);
+
+	//sounds
+	const std::string wallCollisionfile = "collision.wav";
+	const std::string paddleCollisionfile = "paddel_hit.wav";
+	
+	sf::SoundBuffer wallCollision;
+	sf::SoundBuffer paddleCollision;
+	sf::Sound wallSound;
+	sf::Sound paddleHitSound;
+
+	setSound(wallCollision, wallSound, wallCollisionfile);
+	setSound(paddleCollision,paddleHitSound,paddleCollisionfile);
+	
+
 
 	while (window.isOpen())
 	{
@@ -65,8 +92,8 @@ int main()
 
 		
 	
-		checkCollision(seconds, gameBall, left, right,Angle); //More precision required in collision
-		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,rightHearts.numberOfLivesLeft);
+		checkCollision(seconds, gameBall, left, right,Angle,paddleHitSound); //More precision required in collision
+		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,rightHearts.numberOfLivesLeft,wallSound);
 
 		
 
@@ -83,7 +110,6 @@ int main()
 	}
 	return EXIT_SUCCESS;
 }
-
 
 
 

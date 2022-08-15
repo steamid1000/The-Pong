@@ -15,4 +15,8 @@
     <ClInclude Include="Src\ball.h" />
     <ClInclude Include="Src\Lives.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="Src\Sounds\paddel_hit.wav" />
+    <Media Include="Src\collision.wav" />
+  </ItemGroup>
 </Project>
