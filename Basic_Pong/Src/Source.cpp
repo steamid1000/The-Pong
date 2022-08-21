@@ -52,8 +52,8 @@ int main()
 	hearts rightHearts(1);
 
 	//sounds
-	const std::string wallCollisionfile = "collision.wav";
-	const std::string paddleCollisionfile = "paddel_hit.wav";
+	const std::string wallCollisionfile = "Resources\\collision.wav";
+	const std::string paddleCollisionfile = "Resources\\paddel_hit.wav";
 	
 	sf::SoundBuffer wallCollision;
 	sf::SoundBuffer paddleCollision;
@@ -95,7 +95,7 @@ int main()
 		checkCollision(seconds, gameBall, left, right,Angle,paddleHitSound); //More precision required in collision
 		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,rightHearts.numberOfLivesLeft,wallSound);
 
-		
+		 
 
 		window.clear();
 		window.draw(middleLine);

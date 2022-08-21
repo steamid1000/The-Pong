@@ -16,7 +16,11 @@
     <ClInclude Include="Src\Lives.h" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Src\Sounds\paddel_hit.wav" />
     <Media Include="Src\collision.wav" />
+    <Media Include="Src\Resources\collision.wav" />
+    <Media Include="Src\Resources\paddel_hit.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Src\Resources\heart.png" />
   </ItemGroup>
 </Project>
