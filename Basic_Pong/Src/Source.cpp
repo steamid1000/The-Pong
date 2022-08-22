@@ -16,7 +16,7 @@ void setSound(sf::SoundBuffer& buffer, sf::Sound& src,const std::string filePath
 
 	}
 	src.setBuffer(buffer);
-}
+} 
 
 int main()
 {
@@ -26,10 +26,12 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(width, height), "Pong");
 	//window.setFramerateLimit(60);
 
-	sf::RectangleShape middleLine;
+	sf::Texture middleline;
+	middleline.loadFromFile("Resources\\middle-Line.png");
+	sf::Sprite middleLine(middleline);
+	middleLine.setScale(0.8,1.1);
 	middleLine.setPosition(width / 2, 0);
-	middleLine.setFillColor(sf::Color::White);
-	middleLine.setSize(sf::Vector2f(1.1f, height));
+	
 	
 	sf::Event event;
 	sf::Clock deltaclock;
@@ -44,7 +46,7 @@ int main()
 	gameball.setFillColor(sf::Color::White);
 	gameball.setOrigin(gameball.getRadius() / 2, gameball.getRadius() / 2);
 	float Angle;
-	Angle = std::rand() % 45;
+	Angle = std::rand() % 10;
 	float seconds;
 
 	//lives code here

@@ -47,10 +47,10 @@ bool onCollision(paddels& pad, Sphere& gameball,sf::Sound &collision) //return t
 		collision.play();
 		return true;
 	}
-	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > pad.paddel.getPosition().x - pad.paddel.getSize().x/2.9f and
+	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > pad.paddel.getPosition().x - pad.paddel.getSize().x and
 		gameball.ball.getPosition().x + gameball.ball.getRadius() < pad.paddel.getPosition().x and
-		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y/2.9f and
-		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y/2.9f)
+		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y and
+		gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y)
 	{
 		logCollision(pad, gameball);
 		collision.play();
