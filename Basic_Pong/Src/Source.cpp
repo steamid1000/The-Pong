@@ -50,8 +50,8 @@ int main()
 	float seconds;
 
 	//lives code here
-	hearts leftHearts(0);
-	hearts rightHearts(1);
+	hearts leftHearts(0,width,height);
+	hearts rightHearts(1,width,height);
 
 	//sounds
 	const std::string wallCollisionfile = "Resources\\collision.wav";
@@ -95,7 +95,7 @@ int main()
 		
 	
 		checkCollision(seconds, gameBall, left, right,Angle,paddleHitSound); //More precision required in collision
-		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,rightHearts.numberOfLivesLeft,wallSound);
+		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,leftHearts.score,rightHearts.numberOfLivesLeft,rightHearts.score,wallSound);
 
 		 
 

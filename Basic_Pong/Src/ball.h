@@ -20,7 +20,6 @@ public:
 
 		ball.setRadius(radius);
 		ball.setFillColor(sf::Color::White);
-		//ball.setOrigin(800/2,window_height/4);
 		ball.setPosition(window_width/2, window_height/2);
 		
 	}
@@ -96,18 +95,20 @@ void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& righ
 }
 
 
-void collidedWithWall(Sphere& gameball,short &numberOfHeartsOnLeft,short &numberOfHeartsOnRight,sf::Sound &sound) //This function is a early version of the life system, which will be added in future commits
+void collidedWithWall(Sphere& gameball,short &numberOfHeartsOnLeft,short &scoreLeft,short &numberOfHeartsOnRight,short &scoreRight,sf::Sound &sound) //This function is a early version of the life system, which will be added in future commits
 {
 	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > window_width)
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnRight; //this will reduce the rendered hearts by 1 same is below
+		++scoreLeft;
 		sound.play();
 	}
 	else if (gameball.ball.getPosition().x < 0)
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnLeft;
+		++scoreRight;
 		sound.play();
 	}
 }

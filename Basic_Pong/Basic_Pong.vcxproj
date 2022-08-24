@@ -33,6 +33,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Resources\heart.png" />
+    <Image Include="Src\Resources\middle-Line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Src\Resources\VeraBd.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

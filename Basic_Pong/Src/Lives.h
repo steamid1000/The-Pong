@@ -5,21 +5,36 @@ class hearts {
 private:
 	bool side;
 	sf::Texture heartImg;
+	sf::Font font;
+	sf::Text text;
 	sf::Sprite lives[5]; // needs initilization
 	 
 public:
 	short numberOfLivesLeft;
-	hearts(bool side)
+	short score;
+	short width, height;
+	hearts(bool side,short width,short height)
 	{
+		// Setting up the files used
 		heartImg.loadFromFile("Resources\\heart.png");
+		font.loadFromFile("Resources\\VeraBd.ttf");
+		text.setFont(font);
+		text.setCharacterSize(35);
+
+		//Initializing the variables.
 		this->side = side;
+		this->width = width;
+		this->height = height;
 		numberOfLivesLeft = 5;
+		score = 0;
 		initiateHearts(); // ! Warning ! ,Dont call this function from outside 
 	}
 
 	void initiateHearts() {
 		sf::Vector2f size(0.19, 0.19);
+		text.setString(std::to_string(score));
 		float x_position;
+
 		if (side == false) //for hearts on the left side
 		{
 			//setting the first heart size and position as all the other hearts 
@@ -29,6 +44,7 @@ public:
 			lives[0].setPosition(80.f, 10.f);
 
 			x_position = 80.f;
+			text.setPosition(width/4, height-60);
 
 		}
 		else // for hearts on the right side
@@ -38,6 +54,7 @@ public:
 			lives[0].setPosition(375.f, 10.f);
 
 			x_position = 375.f;
+			text.setPosition(width/1.4f, height-60);
 		}
 
 		//drawing the remaning hearts
@@ -54,7 +71,10 @@ public:
 		for (short i = 0; i < numberOfLivesLeft; i++)
 		{ 
 			window.draw(lives[i]);
+
 		}
+		text.setString(std::to_string(score));
+		window.draw(text);
 	}
 };
  
