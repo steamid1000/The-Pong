@@ -6,6 +6,8 @@
 #include "ball.h"
 #include "Lives.h"
 
+// Global variables
+const short width = 600, height = 400;
 
 void setSound(sf::SoundBuffer& buffer, sf::Sound& src,const std::string filePath)
 {
@@ -18,11 +20,40 @@ void setSound(sf::SoundBuffer& buffer, sf::Sound& src,const std::string filePath
 	src.setBuffer(buffer);
 } 
 
+// This stops the rendering of items and show the last position of them before calling the function
+// I dont think the pause is a problem as the game will be reset anyway.
+bool keyWasPressed(sf::Keyboard::Key key) 
+{
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(key)))
+	{
+		while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(key)))
+		{
+			continue;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+//The function is for development only, so that I dont have to restart the game again and again
+void reset(float &Angle, Sphere &gameBall, short &leftHearts, short &rightHearts,short &leftScore,short &rightScore)
+{
+	gameBall.ball.setPosition(width / 2, height / 2);
+	Angle = std::rand() + 1 % 20;
+	leftHearts = 5;
+	rightHearts = 5;
+	leftScore = 0;
+	rightScore = 0;
+}
+
 int main()
 {
 	srand(time(0));
 
-	const short width = 600, height = 400;
+	
 	sf::RenderWindow window(sf::VideoMode(width, height), "Pong");
 	//window.setFramerateLimit(60);
 
@@ -41,10 +72,6 @@ int main()
 	paddels right(sf::Vector2f(20, 60), 1);
 	Sphere gameBall(11.f,height,width);
 
-	sf::CircleShape gameball;
-	gameball.setRadius(10.f);
-	gameball.setFillColor(sf::Color::White);
-	gameball.setOrigin(gameball.getRadius() / 2, gameball.getRadius() / 2);
 	float Angle;
 	Angle = std::rand() % 10;
 	float seconds;
@@ -78,6 +105,8 @@ int main()
 			}
 		}
 		
+		
+
 		dt = deltaclock.restart();
 		seconds = dt.asSeconds();
 
@@ -109,7 +138,19 @@ int main()
 		window.display();
 		
 
+		// Resets the required game objects like the ball,lives and the heart counters
+		if (keyWasPressed(sf::Keyboard::Key::R))
+		{
+			reset(Angle,gameBall,leftHearts.numberOfLivesLeft ,rightHearts.numberOfLivesLeft,leftHearts.score,rightHearts.score);
+		}
+
+		// game-quit option
+		if (keyWasPressed(sf::Keyboard::Key::Escape))
+		{
+			break;
+		}
 	}
+
 	return EXIT_SUCCESS;
 }
 
