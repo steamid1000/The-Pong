@@ -5,55 +5,15 @@
 #include "Paddels.h"
 #include "ball.h"
 #include "Lives.h"
+#include "Logic.h"
 
-// Global variables
-const short width = 600, height = 400;
 
-void setSound(sf::SoundBuffer& buffer, sf::Sound& src,const std::string filePath)
-{
-	std::cout << "came here\n";
-	if (!buffer.loadFromFile(filePath))
-	{
-		std::cout << "file cannot be loaded\n";
-
-	}
-	src.setBuffer(buffer);
-} 
-
-// This stops the rendering of items and show the last position of them before calling the function
-// I dont think the pause is a problem as the game will be reset anyway.
-bool keyWasPressed(sf::Keyboard::Key key) 
-{
-	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(key)))
-	{
-		while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(key)))
-		{
-			continue;
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
-//The function is for development only, so that I dont have to restart the game again and again
-void reset(float &Angle, Sphere &gameBall, short &leftHearts, short &rightHearts,short &leftScore,short &rightScore)
-{
-	gameBall.ball.setPosition(width / 2, height / 2);
-	Angle = std::rand() + 1 % 20;
-	leftHearts = 5;
-	rightHearts = 5;
-	leftScore = 0;
-	rightScore = 0;
-}
 
 int main()
 {
 	srand(time(0));
+	const short width = 600, height = 400;
 
-	
 	sf::RenderWindow window(sf::VideoMode(width, height), "Pong");
 	//window.setFramerateLimit(60);
 
@@ -67,6 +27,10 @@ int main()
 	sf::Event event;
 	sf::Clock deltaclock;
 	sf::Time dt;
+	sf::Clock timerClock;
+	sf::Time timer;
+
+
 
 	paddels left(sf::Vector2f(20,60), 0);
 	paddels right(sf::Vector2f(20, 60), 1);
@@ -75,6 +39,14 @@ int main()
 	float Angle;
 	Angle = std::rand() % 10;
 	float seconds;
+	short timerCount;
+	short allowedTime = 10;
+	//Font for timer
+	sf::Font font;
+	sf::Text timerText;
+
+	setText(font, timerText,"Resources\\VeraBd.ttf", 20);
+
 
 	//lives code here
 	hearts leftHearts(0,width,height);
@@ -92,7 +64,9 @@ int main()
 	setSound(wallCollision, wallSound, wallCollisionfile);
 	setSound(paddleCollision,paddleHitSound,paddleCollisionfile);
 	
-
+	//Starting the timer here
+	timerClock.restart();
+	
 
 	while (window.isOpen())
 	{
@@ -100,7 +74,8 @@ int main()
 		{
 			if (event.type == sf::Event::Closed) {
 				window.close();
-				std::cout << "The window has closed successfully\n";
+				//std::cout << "The window has closed successfully\n";
+				logData("The window has closed successfully");
 				return EXIT_SUCCESS;
 			}
 		}
@@ -109,6 +84,10 @@ int main()
 
 		dt = deltaclock.restart();
 		seconds = dt.asSeconds();
+		timer = timerClock.getElapsedTime(); // timer clocks
+		timerCount = timer.asSeconds();
+		
+		timerText.setString(std::to_string(allowedTime - timerCount));
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) or sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
@@ -135,14 +114,18 @@ int main()
 		window.draw(gameBall.ball);
 		leftHearts.drawHearts(window);
 		rightHearts.drawHearts(window);
+		window.draw(timerText);
 		window.display();
 		
 
 		// Resets the required game objects like the ball,lives and the heart counters
 		if (keyWasPressed(sf::Keyboard::Key::R))
 		{
-			reset(Angle,gameBall,leftHearts.numberOfLivesLeft ,rightHearts.numberOfLivesLeft,leftHearts.score,rightHearts.score);
+			reset(Angle,gameBall,leftHearts.numberOfLivesLeft ,rightHearts.numberOfLivesLeft,leftHearts.score,rightHearts.score,timerClock,width,height);
 		}
+
+		if (TimerEnded(allowedTime, timerCount))
+			break;
 
 		// game-quit option
 		if (keyWasPressed(sf::Keyboard::Key::Escape))
@@ -151,6 +134,7 @@ int main()
 		}
 	}
 
+	system("pause");
 	return EXIT_SUCCESS;
 }
 

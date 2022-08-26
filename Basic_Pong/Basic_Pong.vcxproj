@@ -24,6 +24,7 @@
   <ItemGroup>
     <ClInclude Include="Src\ball.h" />
     <ClInclude Include="Src\Lives.h" />
+    <ClInclude Include="Src\Logic.h" />
     <ClInclude Include="Src\Paddels.h" />
   </ItemGroup>
   <ItemGroup>
