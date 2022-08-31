@@ -68,3 +68,19 @@ bool TimerEnded(short allowedTime, short timer)
 {
 	return allowedTime - timer < 1;
 }
+
+void endScreen(sf::Font &font,sf::RenderWindow &window)
+{
+	sf::Text endText("Game-Has-Ended",font,20);
+	endText.setPosition((600 / 3.1) - endText.getPosition().x, 400 / 2);
+	window.clear();
+	window.draw(endText);
+	window.display();
+	
+}
+
+/*void optionScreen(sf::Font& font, sf::RenderWindow& window)
+{
+
+}
+*/

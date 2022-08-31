@@ -106,16 +106,21 @@ int main()
 		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,leftHearts.score,rightHearts.numberOfLivesLeft,rightHearts.score,wallSound);
 
 		 
-
-		window.clear();
-		window.draw(middleLine);
-		window.draw(left.paddel);
-		window.draw(right.paddel);
-		window.draw(gameBall.ball);
-		leftHearts.drawHearts(window);
-		rightHearts.drawHearts(window);
-		window.draw(timerText);
-		window.display();
+		if (leftHearts.numberOfLivesLeft>0 and rightHearts.numberOfLivesLeft>0)
+		{
+			window.clear();
+			window.draw(middleLine);
+			window.draw(left.paddel);
+			window.draw(right.paddel);
+			window.draw(gameBall.ball);
+			leftHearts.drawHearts(window);
+			rightHearts.drawHearts(window);
+			window.draw(timerText);
+			window.display();
+		}
+		if (leftHearts.numberOfLivesLeft <= 0 or rightHearts.numberOfLivesLeft <= 0) {
+			endScreen(font, window);
+		}
 		
 
 		// Resets the required game objects like the ball,lives and the heart counters
@@ -124,8 +129,7 @@ int main()
 			reset(Angle,gameBall,leftHearts.numberOfLivesLeft ,rightHearts.numberOfLivesLeft,leftHearts.score,rightHearts.score,timerClock,width,height);
 		}
 
-		if (TimerEnded(allowedTime, timerCount))
-			break;
+	
 
 		// game-quit option
 		if (keyWasPressed(sf::Keyboard::Key::Escape))
@@ -134,7 +138,6 @@ int main()
 		}
 	}
 
-	system("pause");
 	return EXIT_SUCCESS;
 }
 

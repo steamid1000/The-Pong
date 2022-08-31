@@ -101,14 +101,14 @@ void collidedWithWall(Sphere& gameball,short &numberOfHeartsOnLeft,short &scoreL
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnRight; //this will reduce the rendered hearts by 1 same is below
-		++scoreLeft;
+		scoreLeft+=5;
 		sound.play();
 	}
 	else if (gameball.ball.getPosition().x < 0)
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnLeft;
-		++scoreRight;
+		scoreRight+=5;
 		sound.play();
 	}
 }
