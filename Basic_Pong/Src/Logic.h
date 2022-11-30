@@ -5,7 +5,7 @@
 /// </summary
 
 template<typename t>
-void logData(t data)
+void logData(t data) //logs input to the console
 {
 	std::cout << data << '\n';
 }
@@ -52,7 +52,7 @@ bool keyWasPressed(sf::Keyboard::Key key)
 }
 
 //The function is for development only, so that I dont have to restart the game again and again
-void reset(float& Angle, Sphere& gameBall, short& leftHearts, short& rightHearts, short& leftScore, short& rightScore, sf::Clock& timer,short width,short height)
+void reset(float& Angle, Sphere& gameBall, short& leftHearts, short& rightHearts, short& leftScore, short& rightScore,short width,short height)
 {
 	gameBall.ball.setPosition(width / 2, height / 2);
 	Angle = std::rand() + 1 % 20;
@@ -60,14 +60,14 @@ void reset(float& Angle, Sphere& gameBall, short& leftHearts, short& rightHearts
 	rightHearts = 5;
 	leftScore = 0;
 	rightScore = 0;
-	timer.restart();
+	
 }
 
 
-bool TimerEnded(short allowedTime, short timer)
+/*bool TimerEnded(short allowedTime, short timer)
 {
 	return allowedTime - timer < 1;
-}
+}*/
 
 void endScreen(sf::Font &font,sf::RenderWindow &window)
 {
@@ -79,8 +79,3 @@ void endScreen(sf::Font &font,sf::RenderWindow &window)
 	
 }
 
-/*void optionScreen(sf::Font& font, sf::RenderWindow& window)
-{
-
-}
-*/

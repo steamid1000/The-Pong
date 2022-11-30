@@ -27,9 +27,7 @@ int main()
 	sf::Event event;
 	sf::Clock deltaclock;
 	sf::Time dt;
-	sf::Clock timerClock;
-	sf::Time timer;
-
+	
 
 
 	paddels left(sf::Vector2f(20,60), 0);
@@ -64,8 +62,6 @@ int main()
 	setSound(wallCollision, wallSound, wallCollisionfile);
 	setSound(paddleCollision,paddleHitSound,paddleCollisionfile);
 	
-	//Starting the timer here
-	timerClock.restart();
 	
 
 	while (window.isOpen())
@@ -84,10 +80,8 @@ int main()
 
 		dt = deltaclock.restart();
 		seconds = dt.asSeconds();
-		timer = timerClock.getElapsedTime(); // timer clocks
-		timerCount = timer.asSeconds();
 		
-		timerText.setString(std::to_string(allowedTime - timerCount));
+		
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) or sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
@@ -115,7 +109,6 @@ int main()
 			window.draw(gameBall.ball);
 			leftHearts.drawHearts(window);
 			rightHearts.drawHearts(window);
-			window.draw(timerText);
 			window.display();
 		}
 		if (leftHearts.numberOfLivesLeft <= 0 or rightHearts.numberOfLivesLeft <= 0) {
@@ -126,7 +119,7 @@ int main()
 		// Resets the required game objects like the ball,lives and the heart counters
 		if (keyWasPressed(sf::Keyboard::Key::R))
 		{
-			reset(Angle,gameBall,leftHearts.numberOfLivesLeft ,rightHearts.numberOfLivesLeft,leftHearts.score,rightHearts.score,timerClock,width,height);
+			reset(Angle,gameBall,leftHearts.numberOfLivesLeft ,rightHearts.numberOfLivesLeft,leftHearts.score,rightHearts.score,width,height);
 		}
 
 	

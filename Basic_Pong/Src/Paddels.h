@@ -24,7 +24,7 @@ public:
 		}
 	}
 
-	 inline void displace(paddels &pad,sf::Time &dt,bool side,const short &vertical_height,bool part) // the inline might or might not helo at all
+	 void displace(paddels &pad,sf::Time &dt,bool side,const short &vertical_height,bool part) // the inline might or might not helo at all
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) and side==0 and within_bounds(pad,vertical_height,part))
 		{

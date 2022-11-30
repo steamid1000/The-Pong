@@ -82,7 +82,9 @@ void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& righ
 		std::cout << "Value of angle: " << Angle << "\n";
 
 		if (onCollision(leftpad, gameball, collisionSound)) //This has to be changed in the future
-		{ Angle = pi-Angle; gameball.ball.setPosition(gameball.ball.getPosition().x + gameball.ball.getRadius()/3+ 0.1f, gameball.ball.getPosition().y); }
+		{ Angle = pi-Angle; gameball.ball.setPosition(gameball.ball.getPosition().x + gameball.ball.getRadius()/3+ 0.1f, gameball.ball.getPosition().y); 
+			//leftpad.
+		}
 		else
 		{
 			Angle = pi-Angle;
@@ -101,14 +103,14 @@ void collidedWithWall(Sphere& gameball,short &numberOfHeartsOnLeft,short &scoreL
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnRight; //this will reduce the rendered hearts by 1 same is below
-		scoreLeft+=5;
+		scoreLeft+=10;
 		sound.play();
 	}
 	else if (gameball.ball.getPosition().x < 0)
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnLeft;
-		scoreRight+=5;
+		scoreRight+=10; //Remove this and put -10 for failure of retuning the ball and +5 for returning the ball successful
 		sound.play();
 	}
 }
