@@ -96,7 +96,7 @@ int main()
 
 		
 	
-		checkCollision(seconds, gameBall, left, right,Angle,paddleHitSound); //More precision required in collision
+		checkCollision(seconds, gameBall, left, right,Angle,leftHearts.score,rightHearts.score,paddleHitSound); //More precision required in collision
 		collidedWithWall(gameBall,leftHearts.numberOfLivesLeft,leftHearts.score,rightHearts.numberOfLivesLeft,rightHearts.score,wallSound);
 
 		 

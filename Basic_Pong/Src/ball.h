@@ -37,6 +37,7 @@ void logCollision(paddels pad,Sphere gameball) //Just logs the collision informa
 
 bool onCollision(paddels& pad, Sphere& gameball,sf::Sound &collision) //return true and calls the log function
 {
+	//left pad collision
 	if (gameball.ball.getPosition().x - gameball.ball.getRadius() < pad.paddel.getPosition().x + pad.paddel.getSize().x and
 		gameball.ball.getPosition().x - gameball.ball.getRadius() > pad.paddel.getPosition().x and
 		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y and
@@ -46,6 +47,7 @@ bool onCollision(paddels& pad, Sphere& gameball,sf::Sound &collision) //return t
 		collision.play();
 		return true;
 	}
+	//right pad collision
 	if (gameball.ball.getPosition().x + gameball.ball.getRadius() > pad.paddel.getPosition().x - pad.paddel.getSize().x and
 		gameball.ball.getPosition().x + gameball.ball.getRadius() < pad.paddel.getPosition().x and
 		gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y and
@@ -62,7 +64,7 @@ bool onCollision(paddels& pad, Sphere& gameball,sf::Sound &collision) //return t
 
 }
 
-void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& rightpad,float &Angle,sf::Sound &collisionSound)
+void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& rightpad,float &Angle,short &leftscore,short &rightscore,sf::Sound &collisionSound)
 {
 	float factor = 260.f * dt;
 
@@ -83,12 +85,13 @@ void checkCollision(float& dt, Sphere& gameball, paddels& leftpad, paddels& righ
 
 		if (onCollision(leftpad, gameball, collisionSound)) //This has to be changed in the future
 		{ Angle = pi-Angle; gameball.ball.setPosition(gameball.ball.getPosition().x + gameball.ball.getRadius()/3+ 0.1f, gameball.ball.getPosition().y); 
-			//leftpad.
+		leftscore += 5;
 		}
 		else
 		{
 			Angle = pi-Angle;
 			gameball.ball.setPosition(gameball.ball.getPosition().x - gameball.ball.getRadius()/3-0.1, gameball.ball.getPosition().y);
+			rightscore += 5;
 		}
 
 	}
@@ -103,14 +106,14 @@ void collidedWithWall(Sphere& gameball,short &numberOfHeartsOnLeft,short &scoreL
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnRight; //this will reduce the rendered hearts by 1 same is below
-		scoreLeft+=10;
+		scoreRight-=10;
 		sound.play();
 	}
 	else if (gameball.ball.getPosition().x < 0)
 	{
 		gameball.ball.setPosition(window_width/2,window_height/2);
 		--numberOfHeartsOnLeft;
-		scoreRight+=10; //Remove this and put -10 for failure of retuning the ball and +5 for returning the ball successful
+		scoreLeft-=10; 
 		sound.play();
 	}
 }
