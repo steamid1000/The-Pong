@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Src\ball.h" />
-    <ClInclude Include="Src\Lives.h" />
-    <ClInclude Include="Src\Logic.h" />
-    <ClInclude Include="Src\Paddels.h" />
+    <ClInclude Include="Depends\GUI\headers\Buttons.hpp" />
+    <ClInclude Include="Depends\GUI\headers\component.hpp" />
+    <ClInclude Include="Depends\GUI\headers\GUI.hpp" />
+    <ClInclude Include="Depends\GUI\headers\Lables.hpp" />
+    <ClInclude Include="Depends\GUI\headers\Scene.hpp" />
+    <ClInclude Include="Scenes\GameSceneTest.hpp" />
+    <ClInclude Include="Scenes\MenuScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Src\collision.wav" />
@@ -38,6 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <Font Include="Src\Resources\VeraBd.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Depends\GUI\src\button.cpp" />
+    <ClCompile Include="Depends\GUI\src\component.cpp" />
+    <ClCompile Include="Depends\GUI\src\lable.cpp" />
+    <ClCompile Include="Src\core.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -137,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Basic_Pong\Depends\sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Basic_Pong\Depends\sfml\include;$(SolutionDir)Basic_Pong\Depends\GUI\headers;$(SolutionDir)Basic_Pong\Depends\GUI\src;$(SolutionDir)Basic_Pong\Scenes;$(SolutionDir)Basic_Pong;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +160,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Basic_Pong\Depends\sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Basic_Pong\Depends\sfml\include;$(SolutionDir)Basic_Pong\Depends\GUI\headers;$(SolutionDir)Basic_Pong\Depends\GUI\src;$(SolutionDir)Basic_Pong\Scenes;$(SolutionDir)Basic_Pong;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

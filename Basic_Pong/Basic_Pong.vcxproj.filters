@@ -6,15 +6,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Source.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Src\Paddels.h" />
-    <ClInclude Include="Src\ball.h" />
-    <ClInclude Include="Src\Lives.h" />
-    <ClInclude Include="Src\Logic.h" />
+    <ClInclude Include="Scenes\GameSceneTest.hpp" />
+    <ClInclude Include="Scenes\MenuScene.hpp" />
+    <ClInclude Include="Depends\GUI\headers\Buttons.hpp" />
+    <ClInclude Include="Depends\GUI\headers\component.hpp" />
+    <ClInclude Include="Depends\GUI\headers\GUI.hpp" />
+    <ClInclude Include="Depends\GUI\headers\Lables.hpp" />
+    <ClInclude Include="Depends\GUI\headers\Scene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Src\collision.wav" />
@@ -27,5 +25,11 @@
   </ItemGroup>
   <ItemGroup>
     <Font Include="Src\Resources\VeraBd.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\core.cpp" />
+    <ClCompile Include="Depends\GUI\src\button.cpp" />
+    <ClCompile Include="Depends\GUI\src\component.cpp" />
+    <ClCompile Include="Depends\GUI\src\lable.cpp" />
   </ItemGroup>
 </Project>
