@@ -55,13 +55,51 @@ bool keyWasPressed(sf::Keyboard::Key key)
     return allowedTime - timer < 1;
 }*/
 
-void endScreen(sf::Font &font, sf::RenderWindow &window)
+void endScreen(sf::Font &font, sf::RenderWindow &window,short leftScore,short rightScore)
 {
-    sf::Text endText("Game-Has-Ended", font, 20);
-    endText.setPosition((600 / 3.1) - endText.getPosition().x, 400 / 2);
-    window.clear();
-    window.draw(endText);
-    window.display();
+    GUI::Lable end(&window);
+    end.SetInnerText("Game Has Ended");
+    end.SetSize(25.f);
+    end.SetPosition(sf::Vector2f(end.center.x,end.center.y-end.getBounds().height /2));
+
+    GUI::Lable winner(&window);
+    if (leftScore>rightScore)
+    {
+        winner.SetInnerText("Left player has won");
+    }
+    else if (rightScore > leftScore) {
+        winner.SetInnerText("Right player has won");
+    }
+    else {
+        winner.SetInnerText("Its a Tie");
+    }
+
+    winner.SetSize(20);
+    winner.SetPosition(sf::Vector2f(winner.center.x, end.center.y + winner.getBounds().height + 10));
+
+    GUI::Lable closeMessage(&window);
+    closeMessage.SetInnerText("Press Escape to return to Main Menu");
+    closeMessage.SetSize(19);
+    closeMessage.SetPosition(sf::Vector2f(closeMessage.center.x, winner.GetPosition().y + closeMessage.getBounds().height + 20));
+
+    sf::Event poll;
+
+    while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    {
+        while (window.pollEvent(poll)){
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+            {
+                return;
+            }
+        }
+
+        window.clear(sf::Color(153, 90, 105));
+        end.render();
+        winner.render();
+        closeMessage.render();
+        window.display();
+    }
+
 }
 
 //^ Paddle Class
@@ -86,7 +124,7 @@ public:
         {
             paddel.setPosition(600 - sizes.x, 400 - sizes.y);
         }
-    }
+ }
 
     void displace(paddels &pad, sf::Time &dt, bool side, const short &vertical_height, bool part) // the inline might or might not helo at all
     {
@@ -166,21 +204,8 @@ void logCollision(paddels pad, Sphere gameball) // Just logs the collision infor
 
 bool onCollision(paddels &pad, Sphere &gameball, sf::Sound &collision) // return true and calls the log function
 {
-    // left pad collision
-    if (gameball.ball.getPosition().x - gameball.ball.getRadius() < pad.paddel.getPosition().x + pad.paddel.getSize().x and
-        gameball.ball.getPosition().x - gameball.ball.getRadius() > pad.paddel.getPosition().x and
-        gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y and
-        gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y)
-    {
-        logCollision(pad, gameball);
-        collision.play();
-        return true;
-    }
-    // right pad collision
-    if (gameball.ball.getPosition().x + gameball.ball.getRadius() > pad.paddel.getPosition().x - pad.paddel.getSize().x and
-        gameball.ball.getPosition().x + gameball.ball.getRadius() < pad.paddel.getPosition().x and
-        gameball.ball.getPosition().y + gameball.ball.getRadius() >= pad.paddel.getPosition().y - pad.paddel.getSize().y and
-        gameball.ball.getPosition().y - gameball.ball.getRadius() <= pad.paddel.getPosition().y + pad.paddel.getSize().y)
+    sf::FloatRect padrect = pad.paddel.getGlobalBounds();
+    if (gameball.ball.getGlobalBounds().intersects(padrect))
     {
         logCollision(pad, gameball);
         collision.play();
@@ -262,8 +287,8 @@ public:
     hearts(bool side, short width, short height)
     {
         // Setting up the files used
-        heartImg.loadFromFile("res\\heart.png");
-        font.loadFromFile("res\\VeraBd.ttf");
+        heartImg.loadFromFile("Resources\\heart.png");
+        font.loadFromFile("Resources\\VeraBd.ttf");
         text.setFont(font);
         text.setCharacterSize(35);
 
@@ -367,8 +392,8 @@ public:
     hearts *rightHearts;
 
     // sounds
-    const std::string wallCollisionfile = "res\\collision.wav";
-    const std::string paddleCollisionfile = "res\\paddel_hit.wav";
+    const std::string wallCollisionfile = "Resources\\collision.wav";
+    const std::string paddleCollisionfile = "Resources\\paddel_hit.wav";
 
     sf::SoundBuffer wallCollision;
     sf::SoundBuffer paddleCollision;
@@ -396,12 +421,9 @@ GameScene::~GameScene()
 
 void GameScene::setup()
 {
-    // gameMode->SetInnerText("Game is on!",50);
-    // gameMode->SetPosition(sf::Vector2f(width/2-gameMode->getBounds().width/2,height/2));
-
     Angle = std::rand() % 10;
 
-    middleline.loadFromFile("res\\middle-Line.png");
+    middleline.loadFromFile("Resources\\middle-Line.png");
     middleLine.setTexture(middleline);
     middleLine.setScale(0.8, 1.1);
     middleLine.setPosition(width / 2, 0);
@@ -411,7 +433,7 @@ void GameScene::setup()
     gameBall = new Sphere(11.f);
 
     // setting font for timer ( //^ Not in use )
-    setText(font, timerText, "res\\times.ttf", 20);
+    setText(font, timerText, "Resources\\times.ttf", 20);
 
     // lives code here
     leftHearts = new hearts(0, width, height);
@@ -432,12 +454,20 @@ void GameScene::render()
         sf::Event poll;
         while (internalwindow->pollEvent(poll))
         {
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        {
-            printf("The game Scene has been closed\n");
-            sceneIndex--;
-            return;
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                printf("The game Scene has been closed\n");
+                sceneIndex--;
+                reset(Angle, *gameBall, leftHearts->numberOfLivesLeft, rightHearts->numberOfLivesLeft, leftHearts->score, rightHearts->score, width, height);
+                return;
+            }
+            else if (poll.type == sf::Event::Closed)
+            {
+                internalwindow->close();
+                logData("The game has been closed successfull\n");
+                return;
+            }
         }
 
         dt = deltaclock.restart();
@@ -459,7 +489,7 @@ void GameScene::render()
 
         if (leftHearts->numberOfLivesLeft > 0 and rightHearts->numberOfLivesLeft > 0)
         {
-            internalwindow->clear(sf::Color(45, 90, 120));
+            internalwindow->clear(sf::Color(51, 51, 49));
             internalwindow->draw(middleLine);
             internalwindow->draw(left->paddel);
             internalwindow->draw(right->paddel);
@@ -471,7 +501,7 @@ void GameScene::render()
 
         if (leftHearts->numberOfLivesLeft <= 0 or rightHearts->numberOfLivesLeft <= 0)
         {
-            endScreen(font, *internalwindow);
+            endScreen(font, *internalwindow,leftHearts->score,rightHearts->score);
         }
 
         // Resets the required game objects like the ball,lives and the heart counters

@@ -11,7 +11,7 @@ int main()
 {
     srand(time(0)); //^ initializing for the random variables
     // I want this file to be as clean as possible maybe after a scene manager this will be accomplished
-    SetFont(font, "res/times.ttf"); //& this function should be called only once
+    SetFont(font, "Resources/times.ttf"); //& this function should be called only once
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(width, height), "GUI Testing");
     // window->setFramerateLimit(60);
 

@@ -7,7 +7,7 @@ Button::Button(std::string idString, sf::RenderWindow *windowPointer) : componen
     source = new sf::SoundBuffer;
     audio = new sf::Sound;
 
-    setSound("res/click.wav");
+    setSound("Resources/click.wav");
 }
 
 Button::~Button()
